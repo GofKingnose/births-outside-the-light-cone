@@ -1,0 +1,27 @@
+[Docstring of the script that ran this protocol, copied verbatim. File: t1_growing_register.py]
+T1 — Registre qui grandit : la flèche naît-elle d'un plafond d'entropie qui monte ?
+==================================================================================
+
+PROTOCOLE PRÉ-ENREGISTRÉ (fixé avant exécution)
+-----------------------------------------------
+Modèle : état global pur. Une distinction = insertion d'un qubit neuf |0>
+(isométrie). Brassage = k couches « brickwork » de portes de Haar à 2 qubits
+entre voisins, par unité de temps.
+
+  E1a  calibration : vitesse d'intrication v (bits / couche) à taille fixe n=16.
+  E1b  croissance au bord : +1 qubit par unité de temps, k ∈ {0.25,0.5,1,2,4}.
+       Plafond : l'entropie de Page de la demi-chaîne croît de ~0.5 bit / unité.
+       Prédiction (physique connue) : équilibre (écart borné) si k·v ≳ 0.5,
+       flèche (écart croissant) sinon  ->  k* ≈ 0.5 / v.
+  E1c  croissance « expansion » : +ceil(h·n) qubits insérés à des positions
+       aléatoires par unité de temps (h = 0.15), k ∈ {0.5,1,2,4,8}.
+       Prédiction : la demi-chaîne décroche de l'équilibre quand le plafond
+       monte plus vite que le brassage, à une taille n_f ≈ 2·k·v/h (∝ k).
+
+Observable : écart G = S_Page(n/2 | n) − S(n/2), en bits, état global pur.
+
+Critères :
+  (K1) si aucune transition n'apparaît entre les k extrêmes -> critère vide.
+  (K2) si la transition (E1b) tombe à ±30 % de k* = 0.5/v et si n_f (E1c)
+       croît ∝ k -> le mécanisme se réduit à la dynamique d'intrication connue :
+       CALIBRATION, pas de nouveauté (résultat attendu).

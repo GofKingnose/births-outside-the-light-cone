@@ -1,0 +1,43 @@
+PRÉDICTIONS ENREGISTRÉES AVANT EXÉCUTION — test de l'encadrement à α = 1
+(écrit le Thu Oct  8 15:01:02 UTC 2026, avant tout calcul de P1 à P5)
+
+Géométrie : chaîne 1D, N0 qudits initiaux, une naissance au bord droit toutes les k couches
+(brickwork), jusqu'à n = 2m ; A = [0, m), Ā = [m, 2m). q = 2. Unités : bits.
+
+Dérivation préalable (jauge d'entrée τ) : dans le modèle de Rényi-2 recuit, si l'on garde le spin
+d'ENTRÉE de chaque porte, le poids d'une porte vaut 1 / K / 0 selon que les deux portes au-dessus
+(ou le bord) portent (τ,τ) / des spins différents / (τ',τ'). Conséquence : aucune paroi n'est créée
+en descendant. Pour A = [0, m) (Ā touche le bord qui grandit), la configuration a exactement une
+paroi au plus, et E[Tr ρ_A²] = somme sur les marches ±1 de la paroi, poids K par porte traversée,
+absorption de poids 1 à la ligne des naissances, au bord gauche ou en t = 0.
+
+P1 (exactitude) : la récurrence à une paroi reproduit Z_A du modèle complet en jauge σ
+    (statmech_check.Z_statmech) à la précision machine (écart relatif < 1e-10), Z_∅ = 1.
+    Échec => la dérivation en jauge τ est fausse.
+P2 (2-design) : avec des portes de Clifford tirées uniformément (Sp(4,F2), signes indifférents
+    pour l'entropie), la moyenne E[2^{-S(A)}] coïncide avec Z_A exact à |z| < 3 dans chaque
+    géométrie testée ; avec rand2, l'écart est significatif (pureté trop forte).
+P3 (densité recuite) : -log2 Z_A / m -> s2(k) = min(1, min_v E(v)/((v+1/k) ln 2)),
+    E(v) = ln(5/2) - h((1+v)/2) ; valeurs : k=1 : 0,2925 ; k=2 : 0,4843 ; k=4 : 0,6760 ; k=8 : 0,8168,
+    avec écart fini en O(log m / m).
+P4 (encadrement rigoureux, trempé, Clifford uniforme) : s2(k) <= E[S(A)]/m <= k/(k+1) (à la
+    correction finie de E près), soit E[G]/N dans
+    k=1 : [0,2500 ; 0,3538], k=2 : [0,1667 ; 0,2579], k=4 : [0,1000 ; 0,1620], k=8 : [0,0556 ; 0,0916].
+    Échec => erreur de code (les deux bornes sont des théorèmes : Jensen + théorème A).
+P5 (membrane, NON rigoureux) : vB = 0,6 exactement pour un 2-design (marche biaisée de
+    Nahum-Vijay-Haah). Je prédis pour Clifford uniforme une vitesse d'intrication trempée
+    vE dans ]0,322 ; 0,45[ (mesurée sur une chaîne fixe, coupe centrale, régime linéaire), puis
+    k vE/(1+k vE) <= E[S]/m <= min(k vE, 0,6k/(1+0,6k)) pour chaque k (encadrement de membrane avec
+    E convexe, E(0)=vE, E(vB)=vB, E'(vB)=1). Échec de P5 => l'image de membrane trempée (ou une de
+    ses hypothèses : convexité, tangence en vB) ne s'applique pas telle quelle à la croissance au bord.
+
+--------------------------------------------------------------------------------------------
+ADDENDUM écrit le Thu Oct  8 15:26:16 UTC 2026 — APRÈS P1-P5 (résultats : voir resultats_encadrement.txt), AVANT P6.
+Pendant la rédaction, la représentation à une paroi donne une preuve courte de la sommation (α < 1) :
+  Z_A <= 2 q^{-(m - B(t*))} + (2K)^{t*-1}/(1-2K),   t* = ceil(m ln q / E(0)),
+B(t) = nombre de naissances pendant les t dernières couches. D'où (Jensen)
+  E[G] <= m log q - S2_recuit <= log q · B(t*) + log(2 + 1/(2K(1-2K)))   [= B(t*) + 3,04 bits pour q=2].
+P6 (illustration d'un énoncé démontré ; échec => erreur de preuve ou de code) : croissance au bord droit
+  n(L) - N0 = floor(L^α) ; pour α ∈ {0,4 ; 0,5 ; 0,6 ; 0,75 ; 0,9 ; 1}, on a, en bits,
+  (borne du théorème A) <= m - S2_recuit/log 2 <= B(t*) + 3,04,
+  et m - S2_recuit/log 2 = O(m^{2-1/α}) pour 1/2 < α < 1, O(1) pour α <= 1/2, ~ 0,7075 m pour α = 1.

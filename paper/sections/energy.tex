@@ -1,0 +1,52 @@
+%======================================================================
+\section{The energy cost of the birth condition}\label{sec:energy}
+%======================================================================
+
+The qudit register has no Hamiltonian and no vacuum: being born uncorrelated costs nothing there. In a theory with a vacuum, the birth of an uncorrelated mode is a local quench, whose energy can be compared with the energy created by expansion. Foster and Jacobson concluded, for a massless field on a growing lattice, that local mode birth injects too much energy into the vacuum to be a viable model of cosmological mode creation \cite{FosterJacobson2004}. We quantified this cost for three birth rules, one of which is the analogue of the birth condition of this paper.
+
+\paragraph{Model.} A free scalar field of mass $m$ on a periodic 1+1D lattice, with cutoff $\Lambda=1$ and a physical spacing $\ell(t)\in[1,2]$ that follows $a(t)\propto t^{1/2}$, $t^3$ or $e^{Ht}$. The Hamiltonian is $\sum_i[P_i^2/(2\ell)+(\phi_{i+1}-\phi_i)^2/(2\ell)+\ell m^2\phi_i^2/2]$. When $\ell$ reaches $2$, every cell is refined by the canonical Haar map $\phi_{2i,2i+1}=\phi_i\pm w_i/2$, $P_{2i,2i+1}=P_i/2\pm p_i$; the pairs $(w_i,p_i)$ are the newborn degrees of freedom. The computation is exact (Gaussian covariance matrices, $N\le2048$). Three rules are compared.
+\begin{itemize}[leftmargin=*,itemsep=1pt]
+\item \emph{R1, product}: every newborn is born in the ground state of its local oscillator, uncorrelated with the rest. This is the birth condition of this paper.
+\item \emph{R2, vacuum-preserving}: the Gaussian isometry $S=\mathrm{diag}(M,M^{-T})$, with $M=X_1^{1/2}X_0^{-1/2}$, maps the coarse vacuum ($X_0=2\Gamma_\phi$ of the reference state) exactly to the fine vacuum ($X_1$).
+\item \emph{R3, MERA}: R1 followed by $D$ layers of translation-invariant two-site Gaussian gates optimised to minimise the energy.
+\end{itemize}
+
+\begin{table}[h]
+\centering\small\setlength{\tabcolsep}{4.5pt}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lccccc}
+\toprule
+rule & $\varepsilon/\Lambda$ per newborn & quanta per newborn & dependence on $H$ & MI with existing cells & $G_E/|A|$ (de Sitter)\\
+\midrule
+R1, product & $0.066$--$0.084$ & $0.044$--$0.057$ & none & $0$ ($<10^{-15}$) & $0.26$--$0.30$\\
+R3, MERA $D=2$ & $6.4\times10^{-4}$ & $5.4\times10^{-4}$ & none & $0.15$ nat, slow tail & $0.017$--$0.018$\\
+R3, MERA $D=4$ & $5.6\times10^{-5}$ & --- & --- & --- & ---\\
+R2, vacuum-preserving & $\le3.5\times10^{-6}$ & $0$ ($<3\times10^{-15}$) & $\propto H^{1.97}$ & $0.16$ nat & $(5$--$7)\times10^{-3}$\\
+\bottomrule
+\end{tabular}}
+\caption{Free field on an expanding lattice, $m=0.05$, $H\in[0.0025,0.2]$. $\varepsilon$: excitation energy injected per newborn. MI: mutual information between a newborn and all existing cells other than its mother cell, just after birth ($N_c=512$). $G_E=S_{\rm th}(A;E)-S(A)$: gap between the entropy of one half and the thermal entropy at the same energy, in nats per site, for $H=0.05$ and $N=128$ to $1024$. For comparison, expansion alone creates about $0.6\,(H/\Lambda)^2$ instantaneous quanta per site and per doubling.}
+\label{tab:energy}
+\end{table}
+
+\paragraph{Results} (Table~\ref{tab:energy}; the predictions were written before the code).
+\begin{itemize}[leftmargin=*,itemsep=1pt]
+\item \emph{R1} injects $\approx0.053$ quanta, i.e.\ $\approx0.08\,\Lambda$, per newborn, independently of $H$ and of the expansion law; from the exact vacuum, $\varepsilon=0.0696\,\Lambda$, independent of $N$. This is about $0.09\,(\Lambda/H)^2$ times the production by expansion: $1.5\times10^4$ times at $H=0.0025$, and the ratio diverges as $H/\Lambda\to0$. The quanta of R1 are at the cutoff scale and those of expansion are infrared, so the difference is even larger in energy.
+\item \emph{R3} reduces the cost (from $6.96\times10^{-2}$ to $5.6\times10^{-5}\,\Lambda$ for $D=0$ to $4$) without making it depend on $H$: a finite depth is not enough. The pre-registered prediction that $\varepsilon$ would stay above $10^{-3}\Lambda$ for $D\le3$ \emph{failed}, as too pessimistic: the threshold is crossed at $D=2$.
+\item \emph{R2} injects almost nothing ($\varepsilon\propto H^{1.97}$) and conserves the number of quanta exactly (Proposition~\ref{prop:quanta}). But it is \emph{correlated with the past}: $0.16$ nat of mutual information between a newborn and the existing cells other than its mother cell, and $0.080$ nat of total entanglement per newborn with the existing cells. From the exact vacuum these correlations decay like $e^{-2mr}$, and the matrix elements of $M$ decay exponentially, over about $15$ sites: R2 is a \emph{local} correlated birth in the sense of Proposition~\ref{prop:births}(c). The entropy of one half stays in an area law, close to that of the vacuum, and the gap $G_E$ only measures the excess adiabatic energy due to expansion, of standard origin.
+\end{itemize}
+
+\begin{proposition}[R2 conserves quanta]\label{prop:quanta}
+For every coarse Gaussian state, rule R2 exactly conserves the number of instantaneous quanta $Q=\frac12\mathrm{Tr}(\Gamma_\phi X^{-1})+\frac12\mathrm{Tr}(\Gamma_P X)-\frac N2$, where $X=2\Gamma_\phi^{\rm vac}$.
+\end{proposition}
+\begin{proof}
+Since $MX_0M^{T}=X_1$, $\mathrm{Tr}(M\Gamma_\phi M^TX_1^{-1})=\mathrm{Tr}(\Gamma_\phi X_0^{-1})$ and $\mathrm{Tr}(M^{-T}\Gamma_PM^{-1}X_1)=\mathrm{Tr}(\Gamma_PX_0)$. The newborns, in their local state, contribute $0$ to $Q$ before the map is applied. Numerical check on random excited states: deviation $\le4\times10^{-15}$.
+\end{proof}
+The non-zero energy injected by R2 therefore comes only from the redistribution of pre-existing quanta between frequencies, whose density is itself $\propto H^2$.
+
+\paragraph{Translation to 3+1 dimensions, under an assumption.} Suppose that an R1 birth also costs $\varepsilon\Lambda$ in 3+1 dimensions, with $\varepsilon\approx0.08$; we have not computed this. With a fixed physical cutoff, births occur at a rate $3H\Lambda^3$ per unit volume and inject $3H\varepsilon\Lambda^4$ per unit volume and time. This radiation dilutes as $a^{-4}$, giving an equilibrium density $\rho^\ast=\frac34\varepsilon\Lambda^4$. The Friedmann equation requires $\rho^\ast\le3H^2M_{\rm Pl}^2$ ($M_{\rm Pl}$ the reduced Planck mass), that is
+\begin{equation}\label{eq:cutoff}
+\Lambda\lesssim(4/\varepsilon)^{1/4}(HM_{\rm Pl})^{1/2}\approx2.7\,(HM_{\rm Pl})^{1/2},
+\end{equation}
+about $5$~meV for the present Hubble rate ($H_0\approx1.4\times10^{-33}$~eV). Such a cutoff is excluded experimentally. The conclusion is insensitive to the assumed value of $\varepsilon$, which enters only as $\varepsilon^{-1/4}$: a cost a hundred times smaller raises the bound by a factor $3.2$, and a cutoff above $1$~TeV would require $\varepsilon\lesssim10^{-58}$, that is, an essentially vacuum-preserving birth. The conclusion agrees with that of Foster and Jacobson \cite{FosterJacobson2004}, and the R1/R2 dichotomy is that of the debate on trans-Planckian initial states: a state that respects adiabaticity leaves only corrections of order $(H/\Lambda)^2$ \cite{KKLS2002}, whereas a birth in the instantaneous vacuum at the cutoff, which is not adiabatic, costs energy \cite{Danielsson2002,MartinBrandenberger2001}.
+
+\paragraph{Scope and limits.} The birth condition that produces the arrow of this paper is therefore excluded, in a theory with a vacuum, by its energy cost, and the admissible rule is locally correlated with the past and carries no deficit of its own. The test has limits: a free field does not scramble (the gap $G_E$ contains a floor specific to free fields, whose mode occupations are conserved); it is 1+1-dimensional; $H/\Lambda\ge2.5\times10^{-3}$ is far from cosmological values, and the extrapolation relies on the measured scaling laws; only one refinement map (Haar) was studied. How the cost decreases when the range of the birth correlations is truncated, between R1 (range zero) and R2 (range of order $1/m$), was not studied; the MERA results show that a finite depth lowers the cost by orders of magnitude without making it depend on $H$. The energy argument itself does not depend on the dynamics: interactions redistribute the injected energy, they do not remove it.

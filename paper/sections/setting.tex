@@ -1,0 +1,36 @@
+%======================================================================
+\section{Setting}\label{sec:setting}
+%======================================================================
+
+\subsection{Register, births, circuits}
+
+A \emph{degree of freedom} (site) $x$ is a qudit of dimension $q\ge2$. It is born at time $t_x\ge0$ in the state $|0\rangle$, in a product with everything else; this is the precise meaning of ``uncorrelated''. The sites present at $t=0$ are in a pure product state. A birth is thus the isometry $|\psi\rangle\mapsto|\psi\rangle\otimes|0\rangle_x$: the global state stays pure and the total entropy stays zero. The dynamics is a circuit of \emph{unitary} gates $g_1,\dots,g_M$ applied at times $\tau_1\le\dots\le\tau_M$. Each gate acts on a finite support $\mathrm{supp}(g_j)$ of sites already born ($t_x\le\tau_j$), with arbitrary arity. We write $\Lambda_T$ for the set of sites born by the final time $T$, $N=|\Lambda_T|$, and $A\subset\Lambda_T$ for a region. The observable is
+\begin{equation}\label{eq:G}
+G(A)=\log q\,\min(|A|,|\Abar|)-S(A)\ \ge0 .
+\end{equation}
+Since the global state is pure, $S(A)=S(\Abar)$ and the mutual information is $I(A{:}\Abar)=2S(A)$: any growth of $S(A)$ is a growth of correlations between $A$ and $\Abar$. For a Haar-random state, $G$ equals the Page correction, $O(1)$ \cite{Page1993}. An \emph{extensive} deficit, $G\ge cN$ with $c>0$, therefore signals a durable arrow.
+
+\begin{lemma}[birth = idle qudit]\label{lem:idle}
+The final state is the same as if all sites existed from $t=0$ in the state $|0\rangle$, with no gate acting on $x$ before $t_x$.
+\end{lemma}
+\begin{proof}
+Inserting $|0\rangle$ at time $t_x$, or keeping it in reserve from $t=0$ without touching it, produces the same vector.
+\end{proof}
+
+Growth thus becomes a \emph{progressive switching-on of couplings} on a fixed set, starting from a pure product state. All the low-entropy structure lies in this birth hypothesis; Proposition~\ref{prop:births} examines what survives when it is weakened.
+
+\subsection{Causal past}
+
+\begin{definition}[backward sweep]
+Set $C_M=A$ and, for $j=M,\dots,1$, $C_{j-1}=C_j\cup\mathrm{supp}(g_j)$ if $\mathrm{supp}(g_j)\cap C_j\neq\emptyset$ (we then say that gate $g_j$ is \emph{in the cone}), and $C_{j-1}=C_j$ otherwise. We write $\Inf(A)=C_0$: the set of sites whose world line meets the causal past of $A$.
+\end{definition}
+
+This cone is \emph{strict}: it depends on the structure of the circuit (which gate acts on which sites, and when), not on the gates themselves. The sweep is implemented in \texttt{code/tableau.py} (function \texttt{infected}), and the single-wall recursion of Section~\ref{sec:walls} in \texttt{code/domain\_wall.py} (function \texttt{logZ\_wall}).
+
+\begin{example}\label{ex:sweep}
+Four sites $0,1,2,3$, region $A=\{0,1\}$, and three gates in temporal order: $g_1$ on $(1,2)$, then $g_2$ on $(2,3)$, then $g_3$ on $(0,1)$. Going backwards: $g_3$ touches $A$, so $C=\{0,1\}$; $g_2$ does not touch $\{0,1\}$ and is outside the cone; $g_1$ touches site $1$, so $C=\{0,1,2\}$. Hence $\Inf(A)=\{0,1,2\}$ and $|\Abar\cap\Inf(A)|=1$. Theorem~A below then gives $S(A)\le\log q$, although $\min(|A|,|\Abar|)=2$: site $3$, whether born at $t=0$ or just before $g_2$, never interacts with anything that later reaches $A$, so $G(A)\ge\log q$.
+\end{example}
+
+\subsection{Reference architectures}\label{sec:archi}
+
+\emph{Dimension 1, edge growth}: a chain with two-qudit gates in a brickwork pattern; layer $L$ acts on the pairs $(x,x+1)$ with $x\equiv L\pmod2$. A site is born at the right edge every $k$ layers, just before layer $L$ if $L\equiv0\pmod k$. The cone advances by one site per layer. \emph{Dimension 1, insertion}: sites are inserted at uniformly random positions, following a law $N(t)$. \emph{Dimension 2}: a square lattice cut by a vertical line. A round consists of four sub-layers (horizontal even and odd, vertical even and odd); the causal speed normal to the cut is $v=2$ sites per round. Births follow a circular front, a constant global rate, or the Eden model.

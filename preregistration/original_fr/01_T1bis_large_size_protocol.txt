@@ -1,0 +1,19 @@
+[Docstring of the script that ran this protocol, copied verbatim. File: t1_clifford.py]
+T1-bis — Registre qui grandit, grande taille (circuits de Clifford)
+=================================================================
+
+PROTOCOLE PRÉ-ENREGISTRÉ (fixé après le constat de T1 à n ≤ 22, avant
+exécution de ce script)
+Question : la croissance de l'écart G = m − S(m), m = ⌊n/2⌋, pour tout k
+(observée à n ≤ 22 en Haar) est-elle un effet de taille finie ?
+
+  C-a  calibration : vitesse d'intrication v (bit/couche), n = 200, 5 graines.
+  C-b  croissance au bord jusqu'à n = 300, k ∈ {1, 2, 4, 8, 16, 32}.
+       Pente dG/dn ajustée sur n ∈ [100, 300].
+       Version « seuil »  : pente compatible avec 0 (|pente| < 0.005) pour k ≥ k*.
+       Version « continue »: pente·k ≈ constante sur toute la gamme.
+  C-c  expansion (h = 0.1, insertions à positions aléatoires) jusqu'à n ≈ 400,
+       k ∈ {2, 4, 8, 16, 32}. Écart de la demi-chaîne et de blocs centraux de
+       taille ℓ ∈ {2, 4, 8, 16, 32, 64}.  Prédiction : la demi-chaîne décroche
+       toujours ; les petits blocs restent à l'équilibre ; la taille ℓ_H du plus
+       grand bloc à l'équilibre croît avec k/h (horizon).

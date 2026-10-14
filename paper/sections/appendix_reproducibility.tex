@@ -1,0 +1,34 @@
+%======================================================================
+\section{Reproducibility}\label{app:repro}
+%======================================================================
+
+Code, data, proofs and the \LaTeX{} source of this paper are in the public repository \repo{} (release v1.0.0). Environment: Python~3.13, \texttt{numpy}~2.5, \texttt{scipy}~1.18, \texttt{matplotlib}~3.11; Coq~8.18. All seeds are fixed in the scripts as functions of the parameters, so re-running a script reproduces its output exactly; the stored data in \texttt{data/} and \texttt{field\_test/} are those used in the paper. Three entry points cover most needs: \texttt{reproduce.sh quick} runs the unit tests, the Coq check, the exact computations, a set of single-job spot checks against the stored data (\texttt{spot\_checks.py}, a few seconds), the analysis scripts and the figures; \texttt{reproduce.sh full} also re-runs every Monte Carlo campaign except the Haar state-vector campaign of Table~\ref{tab:haar}, which takes several hours and is run separately with \texttt{haar\_vs\_clifford.py}. Table~\ref{tab:repro} maps results to scripts.
+
+\begin{table}[h]
+\centering\footnotesize\setlength{\tabcolsep}{4pt}
+\begin{tabular}{p{4.0cm}p{6.2cm}p{4.9cm}}
+\toprule
+result & script(s) in \texttt{code/} & seeds\\
+\midrule
+Theorem A checks & \texttt{test\_theorem\_A.py}, \texttt{growth\_campaigns.py} & in the scripts\\
+Recursion against full model & \texttt{domain\_wall.py}, \texttt{full\_spin\_model.py} & exact computation\\
+2-design check (Clifford, rand2) & \texttt{check\_two\_design.py}, \texttt{check\_ctab\_purity.py} & $20261008$; $99$\\
+$v_B$, $v_E$ & \texttt{butterfly\_velocity.py}, \texttt{edge\_growth\_quenched.py}, \texttt{entanglement\_velocity.py} & $424242$; $1000+s$, $s<8$\\
+Table~\ref{tab:edge}, Figure~\ref{fig:edge} & \texttt{edge\_growth\_quenched.py}, \texttt{edge\_growth\_large\_k.py}, \texttt{table\_statistics.py} & $5000+100k+s$; $9000+100k+s$ ($s<6$)\\
+Table~\ref{tab:haar} & \texttt{haar\_vs\_clifford.py}, \texttt{haar\_vs\_clifford\_analysis.py} & Haar $10^7+10^5k+10^3m+s$; Clifford $2\cdot10^4+100k+m$\\
+Table~\ref{tab:pairs} & \texttt{pair\_births.py}, \texttt{mincut\_pairs.py} & $7000+100k+s$ (+ offset per variant)\\
+Table~\ref{tab:correlated}, Remark~\ref{rem:pairs} & \texttt{correlated\_births.py}, \texttt{correlated\_births\_cone.py} & $3.1\cdot10^7+10^6k+10^3\,\mathrm{round}(10^3f)+s$ (+500 if local)\\
+Remark~\ref{rem:finitesize}, Table~\ref{tab:theta} & \texttt{finite\_size\_theta.py}, \texttt{annealed\_density.py} & exact computation\\
+Regime $\alpha<1$, Figure~\ref{fig:alpha} & \texttt{alpha\_annealed.py}, \texttt{alpha\_quenched.py} & $1000\lfloor100\alpha\rfloor+10m+s$\\
+Tables~\ref{tab:1d}, \ref{tab:2d}, Figures~\ref{fig:dichotomy}, \ref{fig:scaling} & \texttt{growth\_campaigns.py} (with \texttt{growth\_1d.py}, \texttt{growth\_2d.py}) & $s<4$; Eden $10..17$, $20..27$\\
+Parity locking & \texttt{parity\_locking.py}, \texttt{parity\_closed\_form.py}, \texttt{parity\_closed\_form\_more\_seeds.py} & $0..3$; $4..43$\\
+Proposition~A1 & \texttt{optimality\_A1.py}, \texttt{mincut\_vs\_cone.py} & exact computation\\
+Remark~\ref{rem:dualunit} & \texttt{dual\_unitary.py}, \texttt{dual\_unitary\_fixed.py} & in the scripts\\
+Standard errors of the tables & \texttt{table\_statistics.py} & bootstrap: $12345$\\
+Figures & \texttt{make\_figures.py} & ---\\
+Section~\ref{sec:energy} & \texttt{field\_test/}: \texttt{frw\_gauss.py}, \texttt{run\_field.py}, \texttt{mera\_depth.py}, \texttt{mi\_exact\_vacuum.py}, \texttt{tests\_field.py}, \texttt{analyse\_field.py} & exact computation (MERA optimisation: seeds in \texttt{mera\_depth.py})\\
+\bottomrule
+\end{tabular}
+\caption{Correspondence between results, scripts and seeds ($s$: seed index, $k$: layers per birth, $m$: size of $A$, $f$: fraction of correlated births). The pre-registered predictions are in \texttt{preregistration/}.}
+\label{tab:repro}
+\end{table}

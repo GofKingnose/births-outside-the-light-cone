@@ -1,0 +1,97 @@
+%======================================================================
+\section{Discussion}\label{sec:discussion}
+%======================================================================
+
+\subsection{What is established, and how firmly}
+
+The starting question was whether a register that creates uncorrelated degrees of freedom catches up with its maximal entropy when scrambling is fast. It receives an answer at three levels.
+\begin{enumerate}[leftmargin=*,itemsep=2pt]
+\item \emph{For every dynamics}, the deficit is bounded below by the number of degrees of freedom born outside the causal past of the region (Theorem~A). This is a statement about causality, independent of the scrambling rate.
+\item \emph{For the geometry of growth}, what matters is the extension normal to the cut compared with causal propagation. At least linear growth guarantees an extensive deficit. Slower growth leaves the cone time to catch up with everything, and a well-chosen dynamics can then close the deficit (Theorem~C). The bound is optimal in one dimension (Proposition~A1).
+\item \emph{For a typical dynamics} (2-design), the mean deficit is set, up to constants, by the births of two recent windows of durations $m$ and $m/v_E^{(2)}$ (Theorem~D). For linear growth, the annealed density is known exactly (Theorem~E). For Clifford circuits, the simulations place the quenched value within $1.5\,\%$ of this bound evaluated at the same size; for Haar circuits at $N\le22$, the quenched R\'enyi-2 entropy nearly saturates it and the von Neumann entropy lies about half a bit away, a gap that the theory of random circuits suggests is extensive with a small density (Section~\ref{sec:num-haar}).
+\end{enumerate}
+The Frautschi-type velocity criterion (relaxation against expansion), which served as the initial prediction and was refuted, is thus replaced by a \emph{horizon} criterion: the question is not whether scrambling is fast, but whether a finite fraction of the degrees of freedom is born outside the causal past of the cut. Table~\ref{tab:status} states, for each result, whether it is proven, what is checked in Coq, and what rests on cited results or on non-formalised arguments.
+
+\begin{table}[h]
+\centering\footnotesize\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{p{3.6cm}p{2.4cm}p{4.3cm}p{4.7cm}}
+\toprule
+statement & status & checked in Coq & not formalised, or cited\\
+\midrule
+Theorem~A & proven & splitting of the circuit (\texttt{split\_*}) & quantum step: the four facts of Remark~\ref{rem:quantumfacts}\\
+Corollary~\ref{cor:geo}, Props.~\ref{prop:front}, \ref{prop:rate}, \ref{prop:scaling} & proven & front thresholds (\texttt{front\_*}) & volume integrals\\
+Estimate~\ref{est:homog} & heuristic & sign of the fraction ($p=1$) & continuum approximation (P\'olya urn neglected)\\
+Theorem~B & proven & --- & Lieb--Robinson bound cited \cite{NSY2019}; Duhamel; Fannes--Audenaert\\
+Theorem~C & proven & --- & (a) Eden: shape theorem cited; (b) odd--even sort cited\\
+Proposition~A1 & proven & arithmetic (\texttt{ParityA1.v}) & ray dynamics (checked on $405$ cases)\\
+Proposition~\ref{prop:births} & proven & --- & Araki--Lieb\\
+Prop.~\ref{prop:gauge} (input gauge) & proven & weights $1,0,K$ (\texttt{w\_*}) & Weingarten values cited \cite{CollinsSniady2006}\\
+Lemma~\ref{lem:creation}, Prop.~\ref{prop:single} & proven & \texttt{walls\_nonincreasing}, \texttt{single\_wall} & ---\\
+Corollary~\ref{cor:proba}, Lemma~\ref{lem:bundle} & proven & \texttt{weight\_identity}, \texttt{path\_bundle}, \texttt{twoK\_le\_1} & (c): $\binom tj\le e^{t\,h(j/t)}$\\
+Theorem~D, Corollary~\ref{cor:alpha} & proven & --- & summations, concavity\\
+Theorem~E, Prop.~\ref{prop:k1} & proven & $\theta_1$, $E(v_B)=v_B\log q$ & finite martingale identity (induction), Legendre transform\\
+Proposition~\ref{prop:obstruction} & proven & --- & ---\\
+Prop.~\ref{prop:quanta} (free field) & proven & --- & ---\\
+Conjecture~\ref{conj:membrane} (2D) & conjecture & --- & ---\\
+Remarks~\ref{rem:membrane}, \ref{rem:finitesize} & heuristic; exact numerics & algebra of the estimate (\texttt{ConeLemmas.v}) & premises of the estimate\\
+\bottomrule
+\end{tabular}
+\caption{Status of the statements. ``Proven'': complete proof in the text or the appendices, possibly from cited results. The numerical tests (Section~\ref{sec:num}) also test the proven statements.}
+\label{tab:status}
+\end{table}
+
+\subsection{The birth condition}
+
+The arrow obtained is not derived from nothing. It follows from the fact that no degree of freedom is born correlated at \emph{long range} with the existing register. The birth state itself matters little: any fixed pure state will do (Proposition~\ref{prop:births}(a)). Local correlations with the past do not change the density of the deficit, even when they reach one bit per birth (Remark~\ref{rem:pairs}, Tables~\ref{tab:pairs} and~\ref{tab:correlated}). Non-local correlations weaken it by a factor $2$ to $5$ without removing it.
+
+Section~\ref{sec:energy} shows the price of this condition in a theory with a vacuum: an uncorrelated birth costs an energy of the order of the cutoff, and the birth compatible with the vacuum is locally correlated with the past and carries no deficit of its own. In its admissible version, the birth condition therefore coincides with the usual assumption that modes crossing the cutoff are born in their adiabatic vacuum \cite{BunchDavies1978,MartinBrandenberger2001}. It does not displace the past hypothesis: the origin of the low entropy remains in the initial state, and first of all in its gravitational degrees of freedom, which dominate the entropy budget \cite{Penrose1989,EganLineweaver2010}.
+
+\subsection{Cosmological reading (a constrained analogy)}
+
+\begin{itemize}[leftmargin=*,itemsep=1pt]
+\item For $\alpha<1$ (decelerated expansion), the comoving horizon grows without bound and everything eventually comes into causal contact. A scrambling dynamics can then close the deficit at the rate at which regions enter the horizon. A 2-design dynamics does, with a residual deficit $\Theta(m^{2-1/\alpha})$ if $\alpha>\frac12$ and $O(1)$ otherwise (Corollary~\ref{cor:alpha}).
+\item For $\alpha>1$ (accelerated expansion), an event horizon separates regions for good. An accelerated phase produces a maximal deficit, with an area-law entropy (Proposition~\ref{prop:scaling}).
+\item The marginal case $\alpha=1$ (``coasting'' expansion) has no event horizon: the comoving horizon diverges logarithmically. The extensivity of the deficit is a measure effect, since a finite fraction of the sites was born recently, near the edge.
+\end{itemize}
+These readings describe the causal geometry of a register that grows by uncorrelated births. In a field theory such births are excluded by their energy cost (Section~\ref{sec:energy}), and the boundary $\alpha=1$ does not coincide exactly with the existence of an event horizon. We do not claim that this model describes the universe. The natural domain of the results is that of quantum processors into which fresh ancilla qubits enter during the computation.
+
+\subsection{Prior work and positioning}\label{sec:prior}
+
+\begin{itemize}[leftmargin=*,itemsep=2pt]
+\item \emph{Light-cone and entangling-rate bounds.} The generation of correlations and entanglement is limited by the Lieb--Robinson cone \cite{BHV2006,EisertOsborne2006}, and the growth rate of entropy is bounded by the area of the cut \cite{Bravyi2007,VanAcoleyen2013,Marien2016}. Theorem~A is an elementary case of the first kind; Theorem~B follows \cite{BHV2006} with the bound of \cite{NSY2019}; Proposition~\ref{prop:scaling} follows from the second kind.
+\item \emph{Random circuits.} Entanglement growth and its membranes \cite{NRVH2017,JHN2018,ZhouNahum2020,Sierant2023}, operator spreading \cite{NVH2018,vK2018}, and the domain-wall model for the purity with its free boundary \cite{ZhouNahum2019} are used as they are. The function $E(v)$ is the annealed cost of a wall walk of Zhou and Nahum, and Theorem~E is its exact version with an inclined absorbing boundary: $\theta_k=\min_vE(v)/(v+1/k)$ is the minimal cost of a wall that stops on the line of births. Our contribution is limited to treating births as this lateral absorbing boundary and to deriving from it the exact single-wall representation and Theorems~D and~E.
+\item \emph{MERA and de Sitter.} The logarithmic (1D) or area-law bound of MERA follows from its causal cone \cite{Vidal2007,Vidal2008}, and MERA has the causal structure of a discrete de Sitter space \cite{Beny2013,BaoDS2017}. Our exponential case coincides with this setting.
+\item \emph{Growing Hilbert spaces in cosmology}: \cite{Jacobson1999,Bao2017,CotlerStrominger2022,Cao2023}. These models create or bring in unentangled degrees of freedom without analysing the deficit as a function of scrambling or the role of locality.
+\item \emph{Open systems.} Piroli, S\"underhauf and Qi study a system coupled to an environment by random circuits (Hayden--Preskill protocol) \cite{PSQ2020}. Circuits with resets, which inject fresh qudits by \emph{replacing} existing ones, show a phase transition \cite{Yokoyama2026}. Our births add degrees of freedom without removing any: that is the essential difference.
+\item \emph{Random growth}: the Eden--Richardson model and the shape theorem \cite{Eden1961,Richardson1973,CoxDurrett1981}. \emph{Rainbow states}: volume-law entanglement from concentric singlets \cite{Vitagliano2010}.
+\item \emph{Arrow of time and entanglement}: \cite{AlKhaliliChen2024}. \emph{Growing entropy ceiling}: \cite{Layzer1975,Frautschi1982}.
+\item \emph{Energy cost of mode births}: growing lattice \cite{FosterJacobson2004}; trans-Planckian initial states \cite{MartinBrandenberger2001,Danielsson2002,KKLS2002}. Section~\ref{sec:energy} recovers and quantifies this constraint; it is not new.
+\end{itemize}
+What seems specific to this work comes down to five points: the analysis of the marginal case $\alpha=1$ in any dimension, with the resulting dichotomy; parity locking; exact optimality in one dimension; the single-wall representation in the presence of births, with Theorems~D and~E; and the distinction between the range and the amount of birth correlations. Everything follows from known tools: these are new applications, not a new theory. Targeted literature searches (October 2026) did not find these statements; absence of evidence is not evidence of absence, and review by a specialist remains necessary.
+
+\subsection{Limitations}
+
+\begin{itemize}[leftmargin=*,itemsep=1pt]
+\item \emph{Non-2-design dynamics.} Theorems~D and~E assume a 2-design. For other dynamics, only the bracket by Theorem~A and the trivial bound remain, and the position inside it depends on the dynamics: a randomly dressed dual-unitary circuit attains the lower bound (Remark~\ref{rem:dualunit}).
+\item \emph{Annealed, quenched, R\'enyi.} Theorems~D and~E bound $\E[G]$ through Jensen's inequality. For Clifford circuits, the measured quenched--annealed difference is at most $0.004$ bit per qudit. For Haar circuits, the difference between von Neumann and R\'enyi-2 entropies is about half a bit at $N\le22$ (Table~\ref{tab:haar}). Since line tensions depend on the R\'enyi index at finite $q$, this difference is probably extensive; we can neither compute its density nor bound it, and fits at these sizes do not decide. The bracket itself holds for the von Neumann entropy.
+\item \emph{Region.} Theorems~D and~E only treat prefixes. For a union of $r$ intervals, Lemma~\ref{lem:creation} bounds the number of walls by $2r$, but annihilations complicate the summation.
+\item \emph{Bulk births.} Lemma~\ref{lem:creation} still applies, but an insertion shifts the phase of the legs to its right. One must then replace $t^\ast-1$ by $t^\ast-1-B(t^\ast)$ in the proof of Theorem~D. The statement remains true if $B(t^\ast)=o(t^\ast)$, but this is not written out here. For decelerated insertion we only have the continuum estimate and the numerical data.
+\item \emph{Higher dimensions.} The wall becomes a non-monotone membrane (Proposition~\ref{prop:obstruction}). The typical case in 2D remains a conjecture.
+\item \emph{Worst case.} Theorem~C only treats isotropic fronts; its ``only if'' direction is established by construction; the Eden case rests on the shape theorem, used as a black box; Theorem~B assumes a fixed host graph.
+\item \emph{Simulations.} Large sizes use $q=2$ and Clifford gates; Haar circuits are limited to $N\le22$. A single architecture is studied per dimension, and the effective causal velocity depends on it (parity locking).
+\item \emph{Physics.} The model has no energy. In a theory with a vacuum, the birth condition that produces the arrow is excluded by its energy cost (Section~\ref{sec:energy}).
+\end{itemize}
+
+\subsection{Open problems}
+
+\begin{enumerate}[leftmargin=*,itemsep=2pt]
+\item \emph{Experimental test.} A quantum processor can add qubits mid-circuit by bringing in freshly prepared ancillas, and the mean purity $\E\,\mathrm{Tr}\,\rho_A^2$ can be measured with randomised measurements \cite{Brydges2019}. For gates drawn from a 2-design, Theorem~E gives its exact value with no adjustable parameter: $-\log_2\E\,\mathrm{Tr}\,\rho_A^2=\theta_k m/\ln2+c(m)/\ln 2$, with the constants of Remark~\ref{rem:finitesize}.
+\item \emph{Robustness beyond 2-designs.} Characterise the position inside the bracket for approximate designs, for structured circuits (dual-unitary, matchgate, Floquet) and for Hamiltonian dynamics, beyond the examples of Remark~\ref{rem:dualunit}.
+\item \emph{Typical case in 2D.} Sample the spin model in the input gauge, which has no sign problem, by Monte Carlo, and test the membrane conjecture (Section~\ref{sec:dimsup}).
+\item \emph{Quenched and von Neumann entropies.} Compute the von Neumann analogue of $\theta_k$, i.e.\ the minimal cost of a von Neumann membrane ending on the line of births, by a replica method or in an expansion in $1/q$, and the quenched--annealed correction to the R\'enyi-2 density.
+\item \emph{Correlated births.} Establish a bound that depends on the geometry of birth correlations, and not only on their maximal range.
+\end{enumerate}
+
+\subsection{Conclusion}
+
+In a quantum register that grows by pure, uncorrelated births, the gap to maximal entropy does not close because scrambling is fast. It can close only if the causal past of the region catches up with the births; for a typical dynamics in one dimension, it then does close. The mean deficit counts the births of a recent window whose duration lies between one light crossing and one entanglement crossing. An extensive arrow exists as soon as the first window contains a finite fraction of the degrees of freedom; for a typical dynamics, it disappears as soon as the second contains a vanishing fraction. This result was obtained by replacing a velocity prediction, registered and then refuted, by a proven horizon criterion. It is robust to the birth state and to local correlations with the past. It does not, however, solve the cosmological problem of the arrow of time: in a theory with a vacuum, births without correlation with the past cost an energy of the order of the cutoff, and the birth compatible with the vacuum carries no deficit of its own.

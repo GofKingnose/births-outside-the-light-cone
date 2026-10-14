@@ -1,0 +1,34 @@
+PRÉDICTIONS — champ scalaire libre sur un réseau 1+1D qui grandit selon une loi FRW
+Écrit le Mon Oct 12 06:52:04 UTC 2026, AVANT l'écriture du simulateur et avant tout calcul.
+
+MODÈLE (fixé d'avance)
+- Réseau périodique, espacement physique ℓ(t) = a(t)/a(t_dernier raffinement) ∈ [1, 2], coupure Λ = 1 (unités de réseau).
+  H(t) = Σ_i [ P_i²/(2ℓ) + (φ_{i+1}-φ_i)²/(2ℓ) + ℓ m² φ_i²/2 ]  (lagrangien FRW 1+1 en cellules comobiles).
+- Quand ℓ atteint 2 : raffinement N -> 2N par l'application de Haar canonique
+  φ_{2i,2i+1} = φ_i ± w_i/2,  P_{2i,2i+1} = P_i/2 ± p_i ; (w_i, p_i) = degrés de liberté NOUVEAU-NÉS.
+- Règles de naissance :
+  R1 « produit »  : (w,p) dans l'état fondamental de leur oscillateur local, produit avec tout le reste ;
+  R2 « vide »     : isométrie gaussienne qui envoie EXACTEMENT le vide grossier sur le vide fin
+                    (S = diag(M, M^-T), M = X_fin^{1/2} X_0^{-1/2}), appliquée à l'état réel ;
+  R3 « MERA(D) »  : R1 suivi de D couches en briques de portes gaussiennes à 2 sites invariantes par
+                    translation, optimisées pour minimiser l'énergie du vide fin (D = 1, 2, 3).
+- Lois : a ∝ t^{1/2} (décélérée), a ∝ t^3 (accélérée), a ∝ e^{Ht} (de Sitter). Masse m = 0,05 (et 0,01).
+
+PRÉDICTIONS
+F1 (énergie, R1) : ε_R1 = énergie d'excitation injectée par nouveau-né ∈ [0,01 ; 0,2] Λ, quasi indépendante
+   de H (trempe locale à l'échelle de la coupure).
+F2 (énergie, R2) : à la naissance, ε_R2 ≈ 0 (|ε_R2| < 1e-3 Λ pour H ≤ 0,05) ; l'excitation vient de
+   l'étirement entre naissances (production par l'expansion), par site et par doublement ∝ H^γ avec
+   γ ∈ [1,5 ; 2,5]. Donc ε_R1/ε_expansion ≫ 1 et croît quand H diminue.
+F3 (énergie, R3) : ε_R3(D) décroît avec D mais reste ≥ 1e-3 Λ pour D ≤ 3 (une couche finie ne
+   reproduit pas le vide d'un champ de longueur de corrélation 1/m = 20 sites).
+F4 (corrélations, R1) : information mutuelle nouveau-né/existant = 0 exactement à la naissance.
+F5 (corrélations, R2) : IM(w_i : c_j) non nulle, décroissant exponentiellement avec |i-j| sur une échelle
+   ≲ 1/m (ou plus vite) ; intrication totale nouveau-nés/existant extensive (∝ nombre de nouveau-nés).
+F6 (localité, R2) : les éléments de M décroissent exponentiellement avec la distance (échelle ≲ 2/m) :
+   l'isométrie préservant le vide est quasi locale, donc compatible avec le théorème A (cône élargi).
+F7 (écart thermal, diagnostic sans critère ferme) : G_E(A) = S_thermal(A ; même énergie) - S(A).
+   R1 : G_E extensif dans les deux phases (le champ libre ne thermalise pas).
+   R2 : G_E/|A| plus grand en phase accélérée qu'en phase décélérée. Pas de prédiction quantitative.
+LIMITE ANNONCÉE : un champ libre ne brasse pas ; F7 ne teste pas la flèche « par brassage » de l'article.
+Traduction 3+1 (hors test) : ε ≪ H² M_Pl²/Λ³ ; R1 exclut une coupure planckienne si F1 est confirmée.

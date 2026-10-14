@@ -1,0 +1,28 @@
+Addendum de prédictions (écrit AVANT lecture des résultats de gen1d/gen2d) — 2026-10-08T07:34Z
+Loi d'échelle de l'intrication sous croissance auto-similaire L(t) ∝ t^α, dimension d :
+  borne causale (toute dynamique) : S(A) <= C N^β, β = 1 - (α-1)/(α d) pour α > 1 ;
+  exponentiel : S(A) <= C L^{d-1} log L (d = 1 : C log N) ; α = 1 : S <= (1-f) N/2.
+Prédictions testables dans gen1d :
+  p2  : S(N) ∝ N^{1/2}  (exposant local de S entre 400 et 1600 dans [0.35, 0.65]) ;
+  exp : S(N) ∝ log N    (S croît d'un incrément ~ constant par doublement de N).
+Pour Clifford aléatoire, S doit suivre la même loi que la borne (saturation à un facteur près).
+
+Ajout 2026-10-08T07:36Z (avant tout résultat 2D) — fronts 2D accéléré et exponentiel (gen2d_acc.py) :
+  acc (R = 0.05 t^2, alpha = 2, d = 2) : S ∝ N^{3/4} ; exposant local de S sur [1600, 6400] dans [0.6, 0.9] ;
+  expo (R = r0 e^{0.1 t})             : S/sqrt(N) croissant lentement (∝ log N), exposant local de S dans [0.45, 0.75].
+  Dans les deux cas G/N croît vers 1/2.
+
+Ajout 2026-10-08T07:36Z — ÉCART AU PROTOCOLE : un test de durée à N <= 800 (acc-0.05, expo-0.1) a montré,
+par le calcul et non par l'issue, que ces paramètres sont loin du régime asymptotique (front plus lent que la
+vitesse causale v = 2 jusqu'à R ~ 20 pour acc-0.05 ; largeur de la tranche atteinte vT ~ 76 > R pour expo-0.1).
+Ajout de acc-0.5 (vT/R ~ 0.4 à N = 6400) et expo-1 (vT/R ~ 0.2), avec les mêmes prédictions d'exposant.
+Les paramètres initiaux sont conservés et rapportés tels quels (exposant attendu plus proche de 1, transitoire).
+
+Ajout 2026-10-08T08:09Z — après revue critique indépendante, AVANT exécution :
+  (i)  mécanisme de calage : dans les couches non saturées, le bord du cône avance SSI le nombre m
+       d'insertions à sa gauche depuis la couche précédente est pair ; prédiction : accord >= 95 % des couches ;
+       et v_eff ≈ moyenne de P(m pair).
+  (ii) insertion PAR PAIRES adjacentes (parité conservée), N ∝ t, c = 1/2 : v_eff = 1 (±0.02) et
+       G_LB/N = 0.184 ± 5 % à N = 1600 (formule continue avec v = 1) ; G/N Clifford extensif et stable.
+  (iii) Eden avec amas indépendants (graines distinctes par taux, 8 graines chacune) : G/N stable à ±15 %
+       entre N = 1600 et 6400 pour les deux taux.

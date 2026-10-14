@@ -1,0 +1,20 @@
+%======================================================================
+\section{Higher dimensions: an obstruction and a conjecture}\label{sec:dimsup}
+%======================================================================
+
+In dimension $d\ge2$, Theorems~A and~C give the lower bound for every dynamics, but there is no analogue of Theorems~D and~E. The obstruction is precise.
+
+\begin{proposition}[no monotonicity in dimension~2]\label{prop:obstruction}
+On the square lattice, with two-qudit gates on the bonds, the input gauge keeps non-negative weights $1$, $K$, $0$, but neither the length of the wall (number of bonds between legs of different spins) nor the number of domains is monotone along the descent.
+\end{proposition}
+\begin{proof}
+Take a gate on the horizontal bond $(x,y)$, with $a(x)=s$, $a(y)=e$, and the three other neighbours of $y$ in $e$. The choice $\tau=s$ has weight $K>0$ and puts $y$ in $s$: the number of wall bonds incident to $y$ goes from $1$ to $3$. If instead $a(x)=e$, $a(y)=s$, and $y$ joins two parts of an $s$ domain (its vertical neighbours in $s$, its opposite horizontal neighbour in $e$), the choice $\tau=e$, of weight $K$, cuts this domain in two. In one dimension both situations are impossible, because a site has only two neighbours (Lemma~\ref{lem:creation}).
+\end{proof}
+
+A wall therefore becomes a membrane that can grow and branch, and the problem no longer reduces to a walk with finitely many states. On a strip of width $w$ the annealed purity is still an exact transfer-matrix problem, but of dimension exponential in $w$.
+
+\begin{conjecture}[membrane]\label{conj:membrane}
+For an isotropic front at $\alpha=1$ in dimension~2, $-\log Z_A$ is, to leading order, the minimal cost $\int_\Sigma E_2(\hat n)\,\dd\sigma$ of a space-time surface $\Sigma$ anchored on $\partial A$ at time $T$ and free (weight $1$) on the surface of births, where $E_2$ is the annealed line tension of the 2D architecture. By scale invariance at $\alpha=1$, this predicts $-\log Z_A=N\,\Phi(\lambda)+o(N)$, where $\Phi$ depends only on $\lambda=v/s$.
+\end{conjecture}
+
+Theorem~E is the exact one-dimensional analogue of this conjecture. Three diagnostics are available and have not been carried out here. (i)~The spin model in the input gauge has no sign problem (Proposition~\ref{prop:gauge}), so Monte Carlo sampling of the configurations $\tau$ gives $Z_A$ in 2D far beyond the sizes accessible to state vectors. (ii)~The conjecture can be tested by the collapse of $-\log Z_A/N$ as a function of $\lambda$ alone, for several sizes. (iii)~Comparing with the quenched Clifford values of Table~\ref{tab:2d} would give the annealed--quenched gap in 2D.

@@ -1,0 +1,54 @@
+%======================================================================
+\section{Proofs}\label{app:proofs}
+%======================================================================
+
+\subsection{Theorem B}\label{app:B}
+
+\paragraph{The Lieb--Robinson bound used.} Let $F$ be an $F$-function on $(\Lambda,\mathrm d)$, i.e.\ a non-increasing function with $\|F\|=\sup_x\sum_yF(\mathrm d(x,y))<\infty$ and a finite convolution constant $C_F$; on a graph satisfying (H1), $F(r)=(1+r)^{-(d+2)}$ is one ($\|F\|\le\kappa\sum_r(1+r)^{-2}$, and $C_F\le2^{d+3}\|F\|$ because $F(r/2)\le2^{d+2}F(r)$). For $a>0$, $F_a(r)=e^{-ar}F(r)$ is again an $F$-function, with $\|F_a\|\le\|F\|$ and $C_{F_a}\le C_F$. For a time-dependent interaction $\Phi$, let $\|\Phi\|_{F_a}=\sup_t\sup_{x,y}\sum_{Z\ni x,y}\|\Phi(Z,t)\|/F_a(\mathrm d(x,y))$. The time-dependent Lieb--Robinson bound of \cite{NSY2019} implies that, for disjoint $X,Y$ and observables $O_X,O_Y$ (their statement has a smaller double sum, restricted to boundary sites, which we do not need),
+\begin{equation}\label{eq:NSY}
+\big\|[\tau_{t,s}(O_X),O_Y]\big\|\le\frac{2\|O_X\|\|O_Y\|}{C_{F_a}}\Big(e^{2C_{F_a}\|\Phi\|_{F_a}|t-s|}-1\Big)\sum_{x\in X}\sum_{y\in Y}F_a(\mathrm d(x,y)).
+\end{equation}
+Under (H2), $\|\Phi\|_{F_a}\le z_0Je^{ar_0}/F(r_0)$, where $z_0$ bounds the number of terms that contain a given pair of sites, a number controlled by $(\kappa,d,r_0)$. Since $\sum_{x\in X}\sum_{y\in Y}F_a(\mathrm d(x,y))\le\min(|X|,|Y|)\,\|F\|\,e^{-a\,\mathrm d(X,Y)}$, \eqref{eq:NSY} implies \eqref{eq:LR} with $\xi=1/a$, $v=2C_{F_a}\|\Phi\|_{F_a}/a$ and $C=2\|F\|/C_{F_a}$. Two features matter here. (i)~The norm $\|\Phi\|_{F_a}$ is a supremum of sums of non-negative terms, so it can only decrease when terms are deleted or switched off during some time interval: the constants are uniform over all sub-interactions, in particular over the interaction modified by the births (H3) and over the restricted interaction of step~(1) below. (ii)~The bound concerns a fixed host graph: the sites not yet born are present from the start, idle (Lemma~\ref{lem:idle}), and the births only switch terms on. A graph whose distance changes in time is not covered.
+
+\paragraph{Proof of Theorem B.}
+\emph{(1) Restricted dynamics.} Let $\Omega(s)=\{x:\mathrm d(x,A)\le v(T-s)+\ell\}$, which decreases with $s$, and $H_\Omega(s)=\sum_{Z\subseteq\Omega(s)}h_Z(s)$. Write $U$ and $U_\Omega$ for the propagators, and $\rho(T)$ and $\sigma(T)$ for the states they produce.
+\emph{(2) Duhamel.} For $O$ supported in $A$, let $F(s)=U(s,0)^\dagger U_\Omega(T,s)^\dagger O\,U_\Omega(T,s)U(s,0)$. Then $F(T)=\tau_{T,0}(O)$, $F(0)=\tau^\Omega_{T,0}(O)$, and
+$\|\tau_{T,0}(O)-\tau^\Omega_{T,0}(O)\|\le\int_0^T\dd s\sum_{Z\not\subseteq\Omega(s)}\|[h_Z(s),O_s]\|$, with $O_s=U_\Omega(T,s)^\dagger O\,U_\Omega(T,s)$.
+\emph{(3) Lieb--Robinson.} The restricted dynamics satisfies \eqref{eq:LR} with the same constants, by (i) above. If $Z\not\subseteq\Omega(s)$, then $\mathrm d(Z,A)>v(T-s)+\ell-r_0$. The prefactor is bounded using $|Z|\le z_0'$ (controlled by $\kappa,d,r_0$), and there are at most $z_1N$ terms. Hence $\|\tau_{T,0}(O)-\tau^\Omega_{T,0}(O)\|\le C'NTe^{-\ell/\xi}\|O\|$ uniformly in $O$, so $\|\rho_A(T)-\sigma_A(T)\|_1\le\epsilon$.
+\emph{(4) Sites never coupled.} If $x\notin W_\ell$, then $x\notin\Omega(t_x)$. For $s<t_x$, the terms containing $x$ vanish by (H3); for $s\ge t_x$, $\Omega(s)\subseteq\Omega(t_x)\not\ni x$. Site $x$ is therefore never coupled and stays in $|0\rangle$. The state $\sigma(T)$ is pure on $W_\ell\supseteq A$, and $S(\sigma_A)\le\log q\,|\Abar\cap W_\ell|$.
+\emph{(5) Continuity.} The Fannes--Audenaert inequality \cite{Fannes1973,Audenaert2007} gives $|S(\rho_A)-S(\sigma_A)|\le\frac{\epsilon}{2}\log(q^{|A|}-1)+h_2(\epsilon/2)$ when $\epsilon/2\le1-q^{-|A|}$.
+\qed
+
+\subsection{Theorem C(b): the rainbow construction}\label{app:C}
+
+``Rows'' are the lines parallel to the normal $e_1$. By symmetry and convexity of the ball, the living part of a row is a symmetric interval. The circuit proceeds in cycles.
+\begin{itemize}[leftmargin=*,itemsep=1pt]
+\item \emph{Snapshot.} At the start of a cycle, record the living sites. In each row, $m$ sites are new (never touched) and form mirror pairs $(x,\bar x)$; the others are already paired.
+\item \emph{Gathering.} The target order places first the paired sites of the left in their order, then the new pairs side by side, then the paired sites of the right in their order. Odd--even transposition sort realises this permutation $\sigma$ in at most $2R+2$ layers of nearest-neighbour SWAPs \cite{Knuth1998}. It only exchanges inverted pairs, so two old sites are never exchanged with each other, and each is moved by at most $m$ positions.
+\item \emph{Pairing.} A gate turns each new pair brought side by side into a Bell pair.
+\item \emph{Return.} Apply $\sigma^{-1}$ by the same argument.
+\end{itemize}
+All rows are treated in parallel, and a cycle lasts at most $(4R+5)/k$. At the boundaries of a cycle, every Bell pair joins two mirror sites, straddles the cut and contributes exactly $\log q$ to $S(A)$. In the middle of a cycle, an old pair can lie on one side only if one of its members is within $m$ sites of the cut, which concerns at most $2m$ pairs per row. The sites not yet paired were born in $[T-2\tau_{\max},T]$, with $\tau_{\max}=O(R(T)/k)$. In total, $G=O(N(T)-N(T-2\tau_{\max}))=O(N\tau_{\max}/T)=O(N\,T^{\alpha-1}/k)$.
+\qed
+
+\subsection{Theorem D}\label{app:D}
+
+Classify the walks of Proposition~\ref{prop:single} by their stopping time $\tau$ (number of layers gone through) and by the cause of the stop.
+\emph{(i) Absorption on the right with $\tau\le t^\ast$.} At absorption, $p=n(\tau)\ge N-B(\tau)$, so $X=n(\tau)-m\ge m-B(t^\ast)$. By Corollary~\ref{cor:proba}, these walks have total weight $\sum\mathbb{P}_a(\omega)q^{-X(\omega)}\le q^{-(m-B(t^\ast))}$.
+\emph{(ii) Absorption on the left with $\tau\le t^\ast$.} Here $X=-m$. By the $\E_b$ form, the total weight is at most $q^{-m}$.
+\emph{(iii) Walks still alive after $t^\ast$ layers}, including those that survive down to $t=0$. Such a walk has gone through at least $t^\ast-1$ gates. By Lemma~\ref{lem:bundle}(b), the living prefixes have total weight at most $(2K)^{t^\ast-1}$. Every gate crossed afterwards multiplies this weight by $2K\le1$, and an absorption does not change it. The total is therefore at most $(2K)^{t^\ast-1}\le q^{-m}/(2K)$, because $(2K)^{t^\ast}=e^{-t^\ast E(0)}\le q^{-m}$.
+Summing (i), (ii) and (iii) gives $Z_A\le q^{-(m-B(t^\ast))}+q^{-m}+q^{-m}/(2K)\le(2+\frac1{2K})q^{-(m-B(t^\ast))}$, and \eqref{eq:jensen} gives the bound on $\E[G]$.
+\qed
+
+\subsection{Theorem E}\label{app:E}
+
+Let $D$ be the number of living legs to the right of the wall ($D=m$ initially) and $h(D)=e^{-\theta D}$, with $\theta=\theta_k$. For a living walk in phase, one layer gives $\sum_{\text{children}}w\,h(D')=K(e^{\theta}+e^{-\theta})h(D)=e^{-\theta/k}h(D)$. A leg removal gives $e^{\theta}h(D)$, and a layer out of phase gives $h(D)$. These factors are common to all living walks; let $F_t$ be their product after $t$ events. Since a birth occurs every $k$ layers and only the first layer can be out of phase, $e^{-2\theta}\le F_t\le e^{2\theta}$. The walks form a finite tree (finitely many events, each with finitely many children), so the following identity is a finite sum, proven by induction on the number of events processed; no stopping-time theorem and no integrability condition are needed:
+\[
+\sum_{\text{absorbed on the right}}\frac{w}{F_\tau}+\sum_{\text{absorbed on the left}}\frac{w\,h(D_\tau)}{F_\tau}+\sum_{\text{surviving}}\frac{w\,h(D_T)}{F_T}=e^{-\theta m},
+\]
+because $h=1$ at absorption on the right. The walks absorbed on the left have weight at most $q^{-m}$ (Corollary~\ref{cor:proba}), and the surviving ones at most $(2K)^{T-1}$. Hence $Z_{\rm right}\le e^{2\theta}e^{-\theta m}$ and $Z_{\rm right}\ge e^{-2\theta}\big(e^{-\theta m}-e^{2\theta}(q^{-m}+(2K)^{T-1})\big)$. Since $\theta<\log q$ by (c), $\theta\le kE(0)$ by \eqref{eq:theta}, and $T=k(2m-N_0)$, the correction terms $q^{-m}$ and $(2K)^{T-1}$ are exponentially small compared with $e^{-\theta m}$, and each is at most $e^{-\theta m}$ for $m$ large. Since $Z_A=Z_{\rm right}+Z_{\rm left}+Z_{\rm surv}$, this gives $Z_A\le(e^{2\theta}+2)e^{-\theta m}$, and $Z_A\ge Z_{\rm right}\ge\frac12e^{-2\theta}e^{-\theta m}$ for $m$ large.
+
+(a) $\log(2\cosh\theta)=\max_v[\theta v+h(\frac{1+v}2)]$ (Legendre transform of the binary entropy). Equation \eqref{eq:theta} can therefore be written $\max_v[\theta v-E(v)]=-\theta/k$, i.e.\ $\min_v[E(v)-\theta(v+1/k)]=0$.
+(b) For $k=1$, \eqref{eq:theta} becomes $K(e^{2\theta}+1)=1$.
+(c) Take $v=v_B$ in (a), with $E(v_B)=v_B\log q$. As $k\to\infty$, \eqref{eq:theta} becomes $2K\cosh\theta=1$, whose solution is $\theta=\log q$.
+\qed

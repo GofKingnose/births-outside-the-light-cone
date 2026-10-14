@@ -1,0 +1,21 @@
+%======================================================================
+\section{Optimality in one dimension}\label{sec:A1}
+%======================================================================
+
+Consider edge growth with one birth every $k$ layers, up to $N=2m$, and $A=\{0,\dots,m-1\}$. The circuit has $L_f=k(2m-N_0)$ layers. Let $\delta_0=(m-L_f)\bmod 2$ and
+\begin{equation}\label{eq:A1}
+\mathcal{E}_k(m)=\Bigl\lfloor\frac{k(m+1)-\delta_0}{k+1}\Bigr\rfloor,\qquad D^\ast=2\mathcal{E}_k(m)-1+\delta_0 .
+\end{equation}
+
+\begin{proposition}[A1]\label{prop:A1}
+(a) $|\Abar\cap\Inf(A)|=\mathcal{E}_k(m)$. Consequently $G(A)\ge(m-\mathcal{E}_k(m))\log q$ for every circuit.
+(b) There is a brickwork Clifford circuit ($q=2$) for which $S(A)=\mathcal{E}_k(m)$ bits. The bound (a) is therefore optimal, and the minimal cut of the space-time network equals $\mathcal{E}_k(m)$.
+\end{proposition}
+
+\begin{proof}[Proof and status]
+(a) The right edge of the causal past of $A$ starts at site $m-1$ and advances by one site per layer whenever the gate $(r,r+1)$ exists. Its $e$-th widening occurs at layer $L_f-\delta_0-e$ and requires site $m-1+e$ to be born, i.e. $k(m-1+e-N_0)\le L_f-\delta_0-e$. This condition is equivalent to $(k+1)e\le k(m+1)-\delta_0$, hence to $e\le\mathcal{E}_k(m)$.
+(b) Construction: SWAP gates everywhere, except on the gate that straddles the cut, $(m-1,m)$, at depths $d=2j-1+\delta_0$ for $j=1,\dots,\mathcal{E}_k(m)$, where one applies $(H\otimes I)\cdot\mathrm{CNOT}$, which turns two fresh qudits into a Bell pair. The SWAPs carry the two halves along light rays. The left half is reflected by the fixed edge and stays in $A$, because $D^\ast\le 2m-1$; the right half is reflected by the moving edge and stays in $\Abar$. This gives $\mathcal{E}_k(m)$ Bell pairs across the cut.
+\emph{Status.} The arithmetic inequalities used in (a) and (b) are proven in Coq without axioms (\texttt{ParityA1.v}): the condition for being alive, $e\le\mathcal{E}_k$, the bijection of depths, $\mathcal{E}_k\le m-1$, $D^\ast\le 2m-1$, $D^\ast\le km$, and monotonicity along the rays. The ray dynamics itself is not formalised. The construction is checked exhaustively by stabilizer simulation on $405$ cases ($k=1,\dots,8$; $N_0\in\{4,10,16\}$; $m\le60$; both values of $\delta_0$): measured cone $=$ formula $=S(A)$, with no failure. A maximum-flow computation on the space-time graph confirms that the minimal cut equals the cone in $24$ geometries ($k=1,\dots,6$, $N=60$ to $400$).
+\end{proof}
+
+For $k=1$, (a) gives $G\ge\lfloor m/2\rfloor\log q$, i.e.\ $G/(N\log q)\ge\frac14-O(1/m)$; in general $G/(N\log q)\ge\frac{1}{2(1+k)}-O(1/m)$. The lower end of the bracket of Corollary~\ref{cor:bracket} is thus attained, by a dynamics built for this purpose. Random circuits lie close to the upper end instead (Section~\ref{sec:num-edge}).

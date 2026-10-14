@@ -1,0 +1,17 @@
+PRÉDICTIONS — reprise des campagnes des notes 1 et 2 avec des portes de Clifford UNIFORMES (Sp(4,F2))
+Écrit le Fri Oct  9 07:12:42 UTC 2026, avant toute exécution des scripts *_u.py.
+
+Contexte : l'ensemble rand2 n'est pas un 2-design (note 3). On relance les mêmes protocoles (mêmes
+calendriers, mêmes graines nominales) en remplaçant seulement la loi des portes.
+R1 (théorème A) : 0 violation dans toutes les campagnes.
+R2 (bornes structurelles) : les bornes causales G_LB/N ne dépendent pas des portes ; leurs moyennes
+    restent dans les barres d'erreur des valeurs publiées (bord : 0,250 et 0,100 exactement ;
+    fronts 2D : 0,069 / 0,124 / 0,197 ; N ∝ t : 0,273 ; paires : 0,189).
+R3 (valeurs trempées) : G/N diminue par rapport à rand2 (brassage plus efficace) dans toutes les
+    classes extensives ; au bord, G/N <= ½(1 - θ_k/ln2) (théorème E) : k=1 <= 0,354, k=4 <= 0,162.
+    En 2D, le rapport G/G_LB à N = 6400 baisse sous les valeurs rand2 [1,07 ; 1,25].
+R4 (paires, croissance au bord) : P1 indiscernable de R (|écart| < 3 erreurs-types) ; P2 affaiblit la
+    pente d'un facteur R/P2 entre 2 et 4,5 pour k >= 1 ; k = 0 : R/P2 = 2 exactement (à la statistique près).
+R5 (vitesse papillon) : front d'un opérateur de Pauli, v_B = 0,60 ± 0,01 site/couche
+    (valeur exacte (q²-1)/(q²+1) pour un 2-design).
+R6 (bord, k = 16 et 32) : E[G]/N dans l'encadrement démontré [1/(2(1+k)) ; ½(1-θ_k/ln2)].

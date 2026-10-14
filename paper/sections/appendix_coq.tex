@@ -1,0 +1,38 @@
+%======================================================================
+\section{Coq formalisation}\label{app:coq}
+%======================================================================
+
+Five files (folder \texttt{coq/} of the repository) compile with Coq~8.18 and contain $48$ proofs, all closed with \texttt{Qed}, with no \texttt{Admitted}. The script \texttt{check\_coq.sh} compiles them and runs \texttt{Assumptions.v}, which prints the axioms used by $22$ main results. The combinatorial and arithmetic statements are ``closed under the global context'', i.e.\ they use no axiom at all. The lemmas on real numbers use only axioms on which the standard \texttt{Reals} library itself relies: \texttt{sig\_forall\_dec}, \texttt{sig\_not\_dec} and dependent functional extensionality and, for the three lemmas that involve $\exp$ or $\ln$ (\texttt{fraction\_p1\_pos}, \texttt{fraction\_p1\_lt1}, \texttt{butterfly\_tension}), the excluded middle \texttt{Classical\_Prop.classic}.
+\begin{itemize}[leftmargin=*,itemsep=1pt]
+\item \texttt{CausalCone.v} (combinatorial part of Theorem~A, and geometry): \texttt{split\_ext} ($A\subseteq C$), \texttt{split\_cone\_inside}, \texttt{split\_out\_avoids\_A} and \texttt{split\_run}, with no axiom; \texttt{front\_not\_reached}, \texttt{front\_threshold}, \texttt{fraction\_p1\_pos}, \texttt{fraction\_p1\_lt1} and \texttt{speed\_ratio}, on the reals.
+\item \texttt{ConeLemmas.v}: end point of the diagonal path, unreached fraction, combination of the two paths of the membrane estimate (Remark~\ref{rem:membrane}), pairs without scrambling. These are conditional algebraic lemmas; their premises are not formalised.
+\item \texttt{ParityA1.v} (Proposition~A1, no axiom): \texttt{E\_bounds}, \texttt{alive\_iff}, \texttt{E\_max}, \texttt{depths}, \texttt{layer\_gap}, \texttt{half\_B}, \texttt{E\_lt\_m}, \texttt{Dst\_le}, \texttt{half\_A}, \texttt{cut\_gate\_exists}, \texttt{ray\_alive}.
+\item \texttt{WallDescent.v} (Section~\ref{sec:walls}): \texttt{walls\_nonincreasing} and \texttt{single\_wall}, with no axiom; \texttt{weight\_identity}, \texttt{path\_bundle} and \texttt{twoK\_le\_1}, on the reals.
+\item \texttt{WeingartenWeights.v} (Proposition~\ref{prop:gauge} and Theorem~E): from the two-copy Weingarten values, \texttt{w\_equal} ($w(\tau;\tau,\tau)=1$), \texttt{w\_forbidden} ($w(\tau;\bar\tau,\bar\tau)=0$), \texttt{w\_wall} ($w(\tau;a,\bar a)=K$); \texttt{theta1\_root} (Theorem~E(b)); \texttt{butterfly\_tension} ($E(v_B)=v_B\ln q$).
+\end{itemize}
+
+\paragraph{What \texttt{split\_run} states.} A gate is a list of qudit labels (its support), a set of qudits is a Boolean predicate on labels, and \texttt{split} performs the backward sweep of Section~\ref{sec:setting}. The theorem is proven inside a section with an arbitrary type \texttt{State}, an arbitrary function \texttt{apply : gate -> State -> State}, and a single hypothesis: gates with disjoint supports commute, \texttt{apply g (apply h s) = apply h (apply g s)}. It therefore holds for unitaries, isometries, channels or any other semantics with this property; the passage to quantum states, i.e.\ purity of the cone state and the Schmidt decomposition, is the non-formalised step of Theorem~A.
+
+\paragraph{Excerpts.}
+\begin{lstlisting}
+Fixpoint split (c : list gate) (A : qset) : list gate * list gate * qset :=
+  match c with
+  | [] => ([], [], A)
+  | g :: rest =>
+      let '(cn, out, C) := split rest A in
+      if touches C g then (g :: cn, out, add C g) else (cn, g :: out, C)
+  end.
+Section Reorder.
+  Variable State : Type.
+  Variable apply : gate -> State -> State.
+  Hypothesis comm : forall g h s, disjoint g h ->
+    apply g (apply h s) = apply h (apply g s).
+  Theorem split_run : forall c A cn out C, split c A = (cn, out, C) ->
+    forall s, run c s = run out (run cn s).
+End Reorder.
+Theorem walls_nonincreasing : forall l l', history l l' -> walls l' <= walls l.
+Definition w (tau a a' : bool) : R :=
+  Wg false tau * ov false a * ov false a' + Wg true tau * ov true a * ov true a'.
+Lemma w_wall : forall t a, w t a (negb a) = K.
+Lemma butterfly_tension : E_vB = vB * ln q.
+\end{lstlisting}

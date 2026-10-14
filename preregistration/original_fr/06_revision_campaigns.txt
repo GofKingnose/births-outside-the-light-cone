@@ -1,0 +1,36 @@
+PRÉDICTIONS — campagnes de révision (réponse au rapport sur article_fleche.tex, version 1)
+Écrit le Wed Oct 14 06:03:07 UTC 2026, AVANT l'écriture des scripts et avant tout calcul.
+
+V1. Haar (vecteur d'état) contre Clifford uniforme, À TAILLE ÉGALE (question S1/W2 et S6 du rapport).
+    Croissance au bord, q = 2, N0 = 2, k ∈ {1, 2, 4}, N = 2m ∈ {12, 16, 20} (et 22 si le temps le permet),
+    A = [0, m). Bornes exactes à taille finie : LB = m − |Ā ∩ Inf(A)| (cône), UB = m + log2 Z_A (récurrence).
+    (a) Recuit : E[2^{−S2}] = Z_A pour Haar et pour Clifford, |z| ≤ 3 dans chaque géométrie.
+    (b) Haar : E[S_vN] > E[S2] dans chaque géométrie ; l'écart D = E[S_vN] − E[S2] croît avec m à k fixé ;
+        D/m ∈ [0,01 ; 0,15] bit par qubit à m = 10.
+    (c) |E[S2]_Haar − E[S]_Clifford| ≤ 0,2 bit dans chaque géométrie (pour Clifford, S = S2).
+    (d) Donc E[G_vN]_Haar < E[G]_Clifford dans chaque géométrie, et LB ≤ E[G_vN]_Haar ≤ UB.
+    (e) Position dans l'encadrement r = (E[G] − LB)/(UB − LB) : Clifford plus haut que Haar-vN dans chaque
+        géométrie. Pas de prédiction chiffrée sur r à ces tailles.
+
+V2. Échelle finie de la densité recuite (question Q3). Récurrence exacte, k ∈ {1, 2, 4, 8}, N0 ∈ {2, 4, 10},
+    m de 8 à 4096.
+    (a) c(m) = −ln Z_A − θ_k m converge quand m → ∞ ; la limite dépend de la parité de m (et de N0 via la phase) :
+        la constante sous-dominante N'EST PAS universelle. Toujours −ln(e^{2θ}+2) ≤ c(m) ≤ 2θ + ln 2 (théorème E).
+    (b) Convergence exponentielle : |c(m) − c(∞)| < 1e-6 dès m ≈ 200 pour tout k ≤ 8.
+    (c) Erreur relative |−ln Z_A/(θ_k m) − 1| < 1 % dès m ≥ 200 pour tout k ≤ 8.
+
+V3. Critère de vitesse effective du cône strict en insertion (question Q2). Lois p1, p2, exp, p0.5 (mêmes graines
+    que veff.py). Critère combinatoire : le bord avance ssi le nombre d'insertions à sa gauche depuis la couche
+    précédente est pair. Pour des insertions uniformes indépendantes, P(pair) ≈ ½[1 + (1 − 2π)^n], π = fraction de
+    la chaîne à gauche du bord, n = nombre d'insertions entre deux couches.
+    (a) La moyenne sur les couches de cette prédiction reproduit v_eff mesuré à 0,02 près pour p1, p2 et exp.
+    (b) v_eff ne dépend pas de la loi des portes (énoncé exact : le cône strict ne dépend que de la structure).
+
+V4. Naissances corrélées au passé (questions S5/Q1). Croissance au bord (cadre de pairs_u.py), Clifford uniforme,
+    k ∈ {1, 4}, N ≤ 800, 8 graines, pente dG/dN sur [200, 800]. Avec probabilité f, le nouveau-né subit à sa
+    naissance une porte de Clifford uniforme avec un site existant : soit son voisin immédiat (« locale »),
+    soit un site existant tiré uniformément (« non locale »). f ∈ {0 ; 0,01 ; 0,03 ; 0,1 ; 0,3 ; 1}.
+    (a) Locale : pente indiscernable de f = 0 (|écart| < 3 erreurs-types) pour tous f et k.
+    (b) Non locale : pente décroissante en f ; réduction relative ≤ 10 % à f = 0,01, entre 5 % et 75 % à f = 0,1 ;
+        rapport pente(0)/pente(1) ∈ [1,5 ; 6] ; la pente reste positive (> 3 erreurs-types) pour tout f ≤ 1.
+    (c) On rapporte l'information mutuelle moyenne nouveau-né/passé par naissance corrélée.

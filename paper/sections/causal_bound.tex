@@ -1,0 +1,92 @@
+%======================================================================
+\section{The causal bound}\label{sec:A}
+%======================================================================
+
+\begin{theoremL}\label{thm:A}
+For every circuit of unitary gates and every region $A\subset\Lambda_T$,
+\begin{equation}\label{eq:A}
+S(A)\le\log q\,\big|\Abar\cap\Inf(A)\big| ,
+\end{equation}
+and therefore, since $S(A)=S(\Abar)$,
+\begin{equation}\label{eq:Agap}
+G(A)\ge\log q\Big[\min(|A|,|\Abar|)-\min\big(|\Abar\cap\Inf(A)|,\,|A\cap\Inf(\Abar)|\big)\Big].
+\end{equation}
+\end{theoremL}
+
+\begin{proof}
+\emph{(1) Idle sites.} By Lemma~\ref{lem:idle}, the initial state is $|\Psi_0\rangle=\bigotimes_x|0\rangle_x$ on all sites.
+\emph{(2) Splitting.} The backward sweep splits the gates into two ordered subsequences, $\mathcal C_{\rm in}$ (in the cone) and $\mathcal C_{\rm out}$ (outside the cone). Four combinatorial facts follow; they are proven in Coq (Appendix~\ref{app:coq}):
+(a)~$A\subseteq\Inf(A)$;
+(b)~every gate of $\mathcal C_{\rm in}$ acts inside $\Inf(A)$;
+(c)~no gate of $\mathcal C_{\rm out}$ acts on $A$;
+(d)~for every semantics in which gates with disjoint supports commute, applying the circuit is the same as applying $\mathcal C_{\rm in}$ and then $\mathcal C_{\rm out}$. Point~(d) holds because a gate outside the cone is disjoint from every cone gate that follows it.
+\emph{(3) Purity.} Let $C=\Inf(A)$. By (b), $\mathcal C_{\rm in}|\Psi_0\rangle=|\varphi\rangle_C\otimes|0\cdots0\rangle_{\Lambda\setminus C}$ with $|\varphi\rangle_C$ pure, because the gates are unitary.
+\emph{(4) Conclusion.} By (d) and (c), the final state is $W\,\mathcal C_{\rm in}|\Psi_0\rangle$, where $W$ is a unitary on $\Lambda\setminus A$. Hence $\rho_A=\mathrm{Tr}_{C\setminus A}|\varphi\rangle\langle\varphi|$. Since $|\varphi\rangle$ is pure on $C=A\sqcup(C\setminus A)$, $S(A)=S(C\setminus A)\le\log q\,|\Abar\cap C|$.
+\end{proof}
+
+\begin{remark}[the quantum facts used]\label{rem:quantumfacts}
+Besides the combinatorial facts (a)--(d), the proof uses only four facts of finite-dimensional quantum mechanics: (i)~a unitary acting on $C$ maps a pure product state to a state that is pure on $C$; (ii)~for a pure state on $A\sqcup B$, $S(A)=S(B)$ (Schmidt decomposition); (iii)~$S(B)\le\log\dim\mathcal H_B=|B|\log q$; (iv)~a unitary acting on the complement of $A$ does not change $\rho_A$ (invariance of the partial trace). Formalising them in Coq would require a library of finite-dimensional linear algebra and quantum states; this is a project in itself and is not done here.
+\end{remark}
+
+\begin{remark}[scope]
+The theorem assumes nothing about the unitary gates (Haar, Clifford or deterministic) or about the graph, which may change in time; it therefore covers the insertion of sites between existing ones. It is a special case of the Schmidt-rank bound across a cut of the tensor network, in which a fresh site is a leg of dimension~$1$ \cite{Hayden2016,NRVH2017}, and it belongs to the family of light-cone bounds on the generation of correlations and entanglement \cite{BHV2006,EisertOsborne2006,Bravyi2007}. Its only specific content is the application to growth.
+\end{remark}
+
+\begin{corollary}[geometric form]\label{cor:geo}
+Let $\mathrm d_\perp$ be a distance, for instance the distance normal to the cut, for which every gate has a support of diameter at most~$1$. Let $n_\perp(t,T)$ be the number of layers in $[t,T]$ that contain at least one gate of $\mathrm d_\perp$-diameter~$1$. Then $\Abar\cap\Inf(A)\subseteq\{x\in\Abar:\mathrm d_\perp(x,A)\le n_\perp(t_x,T)\}$. In particular, if $|\Abar|\le|A|$,
+\begin{equation}\label{eq:geo}
+G(A)\ge\log q\;\#\big\{x\in\Abar:\ \mathrm d_\perp(x,A)>n_\perp(t_x,T)\big\}.
+\end{equation}
+For periodic layers, $n_\perp(t,T)\le v(T-t)+c_0$, with $c_0=1$ in 1D and $c_0=2$ for the 2D pattern of Section~\ref{sec:archi}.
+\end{corollary}
+\begin{proof}
+Going backwards in time, only these layers can move the edge of the cone away from $A$, by at most one unit each, and a site $x$ can only be reached by a gate applied after $t_x$.
+\end{proof}
+
+\subsection{General births}\label{sec:births}
+
+The birth hypothesis of Section~\ref{sec:setting} can be weakened in three directions.
+
+\begin{proposition}[robustness of the birth condition]\label{prop:births}
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+\item \emph{Any pure birth state.} If site $x$ is born in a fixed pure state $|\phi_x\rangle$, possibly different from site to site, Theorems~A to~E and Proposition~A1 hold unchanged.
+\item \emph{Mixed births.} If site $x$ is born in a state $\rho_x$ of entropy $s_x$, correlated only with a system outside the register, then
+\begin{equation}\label{eq:Amixed}
+S(A)\le\log q\,|\Abar\cap\Inf(A)|+\sum_{x\in\Inf(A)}s_x .
+\end{equation}
+\item \emph{Births correlated with the past.} A birth correlated with the existing register is an isometry $V_x:\mathcal H_{P_x}\to\mathcal H_{P_x}\otimes\mathcal H_x$, where $P_x$ is a set of sites already born. It can be written as a birth in $|0\rangle_x$ followed by a unitary gate supported on $P_x\cup\{x\}$, and Theorem~A applies to the completed circuit. If $P_x$ lies entirely on one side of a cut and $x$ on the other, the birth increases $S(A)$ by at most $S(x)=\tfrac12 I(x{:}\text{past})$, evaluated just after the birth.
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+(a)~The proof of Theorem~A only uses the purity and the product structure of the initial state. For Theorems~D and~E, Lemma~\ref{lem:fresh} holds for every normalised pure state, $\langle\!\langle\pi|(|\phi\rangle\langle\phi|)^{\otimes2}\rangle\!\rangle=\mathrm{Tr}\,\pi(|\phi\rangle\langle\phi|)^{\otimes2}=1$, so $Z_A$ is unchanged. Proposition~A1 is a bound on the cone together with a Clifford construction; it suffices to precede each birth by a local gate that maps $|\phi_x\rangle$ to $|0\rangle$.
+(b)~Purify each $\rho_x$ with a reference system $R_x$ that no gate touches. By steps (2)--(3) of the proof of Theorem~A, the state of $C\cup R_C$, with $C=\Inf(A)$, is pure after $\mathcal C_{\rm in}$, and $\mathcal C_{\rm out}$ does not act on $A$. Hence $S(A)=S\big((C\setminus A)\cup R_C\big)\le\log q\,|C\setminus A|+\sum_{x\in C}S(R_x)$.
+(c)~Every isometry $V_x$ can be written $U\,(\mathbb 1_{P_x}\otimes|0\rangle_x)$ with $U$ unitary on $P_x\cup\{x\}$. If $P_x\subseteq A$ and $x\in\Abar$, the Araki--Lieb inequality gives $S(A)'\le S(A\cup x)'+S(x)'$ (primes denote values after the birth), and $S(A\cup x)'=S(A\cup x)=S(A)$ because $U$ acts inside $A\cup x$ and $x$ was pure. The global state being pure, $I(x{:}\text{past})=2S(x)'$. The case $P_x\subseteq\Abar$, $x\in A$ is symmetric.
+\end{proof}
+
+\begin{remark}[range of the correlations]\label{rem:pairs}
+What matters is not the \emph{amount} of correlation between a newborn and the past, but its \emph{range}. Suppose that all the birth gates of (c) have diameter at most $r$, in 1D edge growth with one birth every $k$ layers. Going backwards in time, the cone then saturates (contains every site present) as soon as its edge comes within $r$ of the last site at a birth, instead of having to reach it. The distance between that edge and the last site decreases by one per layer and by one per birth, so saturation is brought forward by at most $rk/(k+1)$ layers, during which at most $r/(k+1)+1$ sites are born; the number of cone sites in $\Abar$ grows by at most $r/(k+1)+2$. The exact computation of the cone (\texttt{correlated\_births\_cone.py}: $k=1,\dots,8$, $m\le200$, $N_0\in\{2,4,10\}$, $r\le10$) gives a maximal increase of exactly $\lceil r/(k+1)\rceil$ sites. The deficit therefore stays extensive, with the same density. If the partners are far away, the cone jumps from one member of a pair to the other and the bound loses its extensive character: every link that straddles the cut can add $\log q$ to it. Sections~\ref{sec:num-pairs} and~\ref{sec:num-correlated} measure both regimes. A Bell pair born in one go, $|\Phi^+\rangle$ on two neighbouring sites, is the special case $r=1$ of (c), written as two births in $|0\rangle$ followed by a Bell gate.
+\end{remark}
+
+\subsection{Hamiltonian dynamics}\label{sec:B}
+
+\paragraph{Assumptions.}
+(H1)~A fixed host graph $\Lambda$ with a distance $\mathrm d$ and polynomial growth, $|\{y:\mathrm d(x,y)\le r\}|\le\kappa(1+r)^d$ for all $x$ and $r\ge0$.
+(H2)~$H(t)=\sum_Z h_Z(t)$, a sum of terms with $\mathrm{diam}\,Z\le r_0$ and $\|h_Z(t)\|\le J$, piecewise continuous in $t$.
+(H3)~Births: $h_Z(t)=0$ if $t<\max_{x\in Z}t_x$.
+(H4)~A pure product initial state (Lemma~\ref{lem:idle}).
+
+\noindent Under (H1)--(H2), the Lieb--Robinson bound for time-dependent interactions \cite{LiebRobinson1972,NSY2019} provides constants $v,\xi,C>0$, depending only on $(J,r_0,\kappa,d)$, such that for all observables $O_X,O_Y$ supported on $X,Y$
+\begin{equation}\label{eq:LR}
+\big\|[\tau_{t,s}(O_X),O_Y]\big\|\le C\,\|O_X\|\,\|O_Y\|\,\min(|X|,|Y|)\,e^{-(\mathrm d(X,Y)-v|t-s|)/\xi},
+\end{equation}
+where $\tau_{t,s}$ is the Heisenberg evolution from $s$ to $t$. The same constants hold for every sub-interaction obtained by deleting terms, in particular for the interaction modified by (H3); Appendix~\ref{app:B} recalls the precise statement used.
+
+\begin{theoremL}\label{thm:B}
+Assume (H1)--(H4); in particular the host graph is fixed, and a graph that changes in time is not covered. For every region $A$ and every $\ell>0$, let $W_\ell=\{x:\mathrm d(x,A)\le v(T-t_x)+\ell\}$. If $\epsilon/2\le1-q^{-|A|}$, then
+\begin{equation}
+S(A)\le\log q\,|\Abar\cap W_\ell|+\tfrac{\epsilon}{2}\,|A|\log q+h_2(\epsilon/2),\qquad \epsilon=C'\,N\,T\,e^{-\ell/\xi},
+\end{equation}
+where $h_2$ is the binary entropy and $C'$ depends only on $(J,r_0,\kappa,d)$. With $\ell=\xi\ln(C'TN^2)=O(\log NT)$, the correction is $O(1)$.
+\end{theoremL}
+
+The proof (Appendix~\ref{app:B}) follows \cite{BHV2006}: one compares the true evolution with an evolution restricted to a shrinking neighbourhood of $A$, in which sites outside $W_\ell$ are never coupled, and controls the difference with \eqref{eq:LR} and the Fannes--Audenaert inequality. The only borrowed ingredient is \eqref{eq:LR}, which is cited and not re-proven. A host graph that changes in time is not covered by Theorem~B; for circuits, Theorem~A covers it.

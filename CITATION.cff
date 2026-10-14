@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it as below."
+title: "Births outside the light cone: entropy deficit in a growing quantum register"
+abstract: >-
+  Causal bounds, one-dimensional optimality and exact single-domain-wall results for the entropy
+  deficit of a quantum register that grows by uncorrelated births, with stabilizer and Haar
+  simulations, Coq proofs of the combinatorial parts, and a free-field test of the energy cost
+  of the birth condition. Produced with an AI system; see the AI-use statement in README.md.
+authors:
+  - alias: GofKingnose
+    affiliation: "Independent author"
+    email: github.kabob469@passmail.com
+version: 1.0.0
+date-released: 2026-10-14
+license:
+  - MIT
+  - CC-BY-4.0
+repository-code: "https://github.com/GofKingnose/births-outside-the-light-cone"
+keywords:
+  - random quantum circuits
+  - entanglement
+  - Lieb-Robinson bounds
+  - domain walls
+  - arrow of time
+  - growing Hilbert space

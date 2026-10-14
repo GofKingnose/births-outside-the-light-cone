@@ -1,0 +1,37 @@
+%======================================================================
+\section{Introduction}
+%======================================================================
+
+\paragraph{The question.} Consider a quantum register that grows. New degrees of freedom are born in a pure state, uncorrelated with what already exists, and the whole register is scrambled by local unitary dynamics. Scrambling drives the entropy of a region towards its maximum; births keep adding degrees of freedom whose entanglement with the rest starts at zero. Does the register catch up with its maximal entropy if scrambling is fast enough? If not, what controls the deficit?
+
+\paragraph{Why it matters.} Growing registers appear in two settings. In quantum processors, fresh ancillas enter a computation mid-circuit; entanglement in the presence of resets and fresh qudits is an active topic \cite{PSQ2020,Yokoyama2026}. In cosmology, a fixed ultraviolet cutoff in an expanding universe seems to require a growing Hilbert space \cite{Jacobson1999}, and several toy models of this kind have been proposed: circuits in which unentangled ancillas are progressively entangled \cite{Bao2017}, isometric rather than unitary evolution \cite{CotlerStrominger2022}, and de Sitter tensor networks \cite{BaoDS2017,Cao2023}. Layzer \cite{Layzer1975} and Frautschi \cite{Frautschi1982} noted long ago that in an expanding universe the maximal entropy accessible to a causal region can grow faster than the actual entropy, and that a system ``falls out of equilibrium if its relaxation time exceeds the expansion time''. This is a \emph{velocity} criterion: it predicts a return to equilibrium as soon as relaxation is fast enough.
+
+\paragraph{A refuted prediction.} This work started from a prediction written before any computation: the Frautschi criterion transposed to circuits, according to which the deficit closes when $k\,v_E\gtrsim\frac12$, where $k$ is the number of scrambling layers per birth and $v_E$ the entanglement velocity. Simulations refuted it: the deficit stays extensive for every $k$ tested, from $1$ to $32$ (Section~\ref{sec:num-edge}). This failure is the origin of the results below.
+
+\paragraph{Answer.} The deficit does not depend primarily on the scrambling rate. It depends on the fraction of degrees of freedom that are born \emph{outside the causal past} of the region considered. Table~\ref{tab:glance} summarises the results and their status.
+
+\begin{table}[h]
+\centering\small\setlength{\tabcolsep}{4pt}
+\begin{tabular}{p{3.2cm}p{8.3cm}p{2.9cm}}
+\toprule
+result & statement & status\\
+\midrule
+Theorem~A (Sec.~\ref{sec:A}) & $S(A)\le\log q\,|\Abar\cap\Inf(A)|$ for every unitary circuit, any graph, any births & proven; combinatorial core in Coq\\
+Theorem~B (Sec.~\ref{sec:A}) & Lieb--Robinson version for local Hamiltonians on a fixed graph & proven from a cited bound\\
+Proposition~\ref{prop:births} & any pure birth state; mixed births; births correlated with the past & proven\\
+Theorem~C (Sec.~\ref{sec:geo}) & front $R\propto t^\alpha$: extensive deficit for every dynamics iff $\alpha\ge1$ & proven (isotropic fronts)\\
+Proposition~A1 (Sec.~\ref{sec:A1}) & in 1D the causal bound is attained & proven; arithmetic in Coq\\
+Theorem~D (Sec.~\ref{sec:walls}) & 2-design gates: $\E[G]$ is set by the births of two recent windows; $\Theta(m^{2-1/\alpha})$ for $\frac12<\alpha<1$ & proven\\
+Theorem~E (Sec.~\ref{sec:walls}) & exact annealed Rényi-2 density $\theta_k$ at $\alpha=1$; proven bracket on $\E[G]/N$ & proven\\
+Proposition~\ref{prop:obstruction} (Sec.~\ref{sec:dimsup}) & no single-wall reduction in 2D; membrane conjecture & proven obstruction; conjecture\\
+Numerics (Sec.~\ref{sec:num}) & stabilizer simulations to $6400$ qubits, Haar to $22$ qubits & pre-registered\\
+Section~\ref{sec:energy} & in a free lattice field, uncorrelated births cost energy $\sim0.07$ of the cutoff & numerical, exact Gaussian\\
+\bottomrule
+\end{tabular}
+\caption{Results at a glance. The full status of each statement, including which parts are formally verified, is given in Table~\ref{tab:status}.}
+\label{tab:glance}
+\end{table}
+
+\paragraph{What the paper does not do.} The register has no gravity, no conserved energy and no Friedmann equation. The results do not derive an arrow of time from nothing: they derive it from a \emph{birth condition}, namely that a new degree of freedom is not correlated at long distance with what already exists. Section~\ref{sec:energy} shows that, as soon as there is a vacuum and an energy, this condition costs an energy of the order of the cutoff per degree of freedom, in agreement with an objection of Foster and Jacobson \cite{FosterJacobson2004}, while the energetically admissible birth is correlated with the past and carries no deficit of its own. The cosmological readings of Section~\ref{sec:discussion} are therefore analogies; the natural domain of the results is that of growing quantum registers.
+
+\paragraph{Outline.} Section~\ref{sec:setting} sets up the model. Section~\ref{sec:A} proves the causal bound and examines general births. Section~\ref{sec:geo} turns the bound into a geometric dichotomy. Section~\ref{sec:A1} proves optimality in one dimension. Section~\ref{sec:walls} derives the exact single-wall model for 2-design circuits and Theorems~D and~E; Section~\ref{sec:dimsup} explains why it does not extend to two dimensions. Section~\ref{sec:num} reports the numerical tests, Section~\ref{sec:energy} the energetic cost of the birth condition, and Section~\ref{sec:discussion} discusses the status of each statement, prior work and limitations. The appendices contain the longer proofs, the Coq formalisation and a reproducibility guide.

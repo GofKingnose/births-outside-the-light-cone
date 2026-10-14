@@ -1,0 +1,5 @@
+# Versions used for the paper (Python 3.13). Close versions should give identical results;
+# exact bit-for-bit reproduction of floating-point outputs is only guaranteed with these.
+numpy==2.5.3
+scipy==1.18.1
+matplotlib==3.11.2
